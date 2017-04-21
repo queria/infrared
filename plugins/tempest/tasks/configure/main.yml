@@ -1,3 +1,6 @@
+- fail: msg='tempest-configure --remove support only from OSP-11 and above'
+  when: test.openstack.version|int <= 11 && test.get('remove', {}) | length > 0
+
 - name: Prepare tempest configuration tool
   vars:
       method_name: "{{ test.setup }}{{ (test.legacy.config == true and test.setup == 'git') | ternary('_legacy','') }}"
