@@ -187,6 +187,11 @@ subparsers:
                             If not set, it will auto generate a deployment according to the
                             provided templates / options.
 
+                            TODO(psedlak||skatlapa): maybe place these links in the selinux.yaml.j2 template instead ???????
+
+                            https://access.redhat.com/documentation/en-us/red_hat_openstack_platform/11/html-single/advanced_overcloud_customization/#identifying_parameters_to_modify
+                            https://docs.openstack.org/tripleo-docs/latest/install/advanced_deployment/node_config.html
+
                   overcloud-templates:
                       type: ListOfVarFiles
                       help: |
@@ -227,6 +232,13 @@ subparsers:
                       help: |
                           Specifies whether TLS Everywhere with FreeIPA should be implemented
                       default: no
+
+                  selinux:
+                      type: Value
+                      help: |
+                        When set ask TripleO to set specified selinux state on OC nodes [e.g. permissive,disabled,enforcing].
+                        This is generic for all nodes, for more specific control (like for only some nodes etc) custom template has to be used.
+
 
             - title: Network Configuration
               options:

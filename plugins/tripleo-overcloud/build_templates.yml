@@ -28,6 +28,26 @@
             dest: "{{ template_base }}/debug.yaml"
         when: install.overcloud.debug
 
+      - name: inject selinux.yaml to switch selinux state if provided by the user
+        vars:
+            selinux_mode: "{{ install.selinux|default('') }}"
+        template:
+            src: templates/selinux.yaml.j2
+            dest: "{{ template_base }}/selinux.yaml"
+        when:
+            - install.selinux|default('')
+
+      - name: "Workaround BZ#1543914 - selinux prevents booting VMs"
+        vars:
+            selinux_mode: "permissive"
+        template:
+            src: templates/selinux.yaml.j2
+            dest: "{{ template_base }}/selinux.yaml"
+        when:
+            - install.version|default(undercloud_version)|openstack_release == 13
+            - not install.selinux|default('')
+            # ^ workaround only if user did not specified explicitely ... not exactly sure we want that part
+
       - name: inject config_heat.yaml so it will be auto discovered with user templates
         vars:
             config_heat: "{{ install.get('config', {}).get('heat', {}) }}"
