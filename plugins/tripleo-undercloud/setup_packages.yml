@@ -117,6 +117,15 @@
             name: "*"
         register: update
 
+      - name: get basic usefull tools in place
+        package:
+            state: present
+            name:
+                - vim-enhanced
+                - strace
+                - iotop
+                - iptraf-ng
+
       - name: reboot the undercloud
         shell: "sleep 2 && shutdown -r now"
         async: 1
